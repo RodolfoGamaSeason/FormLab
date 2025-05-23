@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #3b82f6;
+            --success-color: #10b981;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --border-hover: #cbd5e1;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-lg: 0 4px 6px rgba(0,0,0,0.1);
+            --radius: 8px;
+            --radius-sm: 6px;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #3b82f6;
+            --primary-hover: #2563eb;
+            --primary-light: #60a5fa;
+            --success-color: #10b981;
+            --background: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --border-hover: #475569;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-lg: 0 4px 6px rgba(0,0,0,0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.5;
+            font-size: 14px;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            width: 300px;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin: 0 auto;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.025em;
+        }
+        
+        .header img {
+            height: 26px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            max-width: 32px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            color: white;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .content {
+            padding: 15px 12px;
+            background-color: var(--card-bg);
+            transition: background-color 0.3s ease;
+        }
+
+        .formatacao-section {
+            background-color: var(--background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .formatacao-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .radio-option input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 16px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow);
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.75px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 3px;
+            height: 16px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            background-color: var(--background);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background-color: var(--card-bg);
+        }
+
+        input[type="text"]::placeholder {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        button {
+            padding: 10px 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            flex: 1;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+        }
+
+        .pop-up-copiado {
+            display: none;
+            background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+            color: white;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+            animation: slideInUp 0.3s ease;
+        }
+
+        @keyframes slideInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* Estilos específicos para diferentes seções */
+        .cpf .section-title {
+            color: #dc2626;
+        }
+
+        .cpf .section-title::before {
+            background-color: #dc2626;
+        }
+
+        .nome .section-title {
+            color: #7c3aed;
+        }
+
+        .nome .section-title::before {
+            background-color: #7c3aed;
+        }
+
+        .telefone .section-title {
+            color: #059669;
+        }
+
+        .telefone .section-title::before {
+            background-color: #059669;
+        }
+
+        .data .section-title {
+            color: #ea580c;
+        }
+
+        .data .section-title::before {
+            background-color: #ea580c;
+        }
+
+        /* Tema escuro - ajustes nas cores das seções */
+        [data-theme="dark"] .cpf .section-title {
+            color: #f87171;
+        }
+
+        [data-theme="dark"] .cpf .section-title::before {
+            background-color: #f87171;
+        }
+
+        [data-theme="dark"] .nome .section-title {
+            color: #a78bfa;
+        }
+
+        [data-theme="dark"] .nome .section-title::before {
+            background-color: #a78bfa;
+        }
+
+        [data-theme="dark"] .telefone .section-title {
+            color: #34d399;
+        }
+
+        [data-theme="dark"] .telefone .section-title::before {
+            background-color: #34d399;
+        }
+
+        /* Melhorias de acessibilidade */
+        button:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        input:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .theme-toggle:focus-visible {
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+            outline-offset: 2px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 8px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--background);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <img src="icons/icons8-form-50.png" alt="FormLab Icon" width="26" height="26">
+                <h1>FormLab</h1>
+            </div>
+            <button class="theme-toggle" id="theme-toggle" title="Alternar tema">
+                🌙
+            </button>
+        </div>
+        
+        <div class="content">
+            <div class="formatacao-section">
+                <div class="formatacao-title">Formatação</div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="formatacao-sim" name="formatacao" value="true" checked>
+                        <label for="formatacao-sim">Sim</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="formatacao-nao" name="formatacao" value="false">
+                        <label for="formatacao-nao">Não</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section cpf">
+                <h3 class="section-title">CPF</h3>
+                <input type="text" id="cpf" placeholder="000.000.000-00" readonly>
+                <div class="btns">
+                    <button id="gerar-cpf">Gerar CPF</button>
+                </div>
+                <div class="pop-up-copiado" id="pop-up-cpf">
+                    ✓ CPF copiado para a área de transferência!
+                </div>
+            </div>
+
+            <div class="section nome">
+                <h3 class="section-title">Nome</h3>
+                <input type="text" id="nome" placeholder="Rodolfo Gama" readonly>
+                <div class="btns">
+                    <button type="button" id="gerar-nome">Nome</button>
+                    <button type="button" id="gerar-nome-sobrenome">Completo</button>
+                </div>
+                <div class="pop-up-copiado" id="pop-up-nome">
+                    ✓ Nome copiado para a área de transferência!
+                </div>
+            </div>
+
+            <div class="section telefone">
+                <h3 class="section-title">Telefone</h3>
+                <input type="text" id="telefone" placeholder="(00)00000-0000" readonly>
+                <div class="btns">
+                    <button type="button" id="gerar-telefone">Fixo</button>
+                    <button type="button" id="gerar-telefone-celular">Celular</button>
+                </div>
+                <div class="pop-up-copiado" id="pop-up-telefone">
+                    ✓ Telefone copiado para a área de transferência!
+                </div>
+            </div>
+
+            <div class="section data">
+                <h3 class="section-title">Data</h3>
+                <input type="text" id="data" placeholder="dd/mm/yyyy" readonly>
+                <div class="btns">
+                    <button type="button" id="gerar-data">Data</button>
+                </div>
+                <div class="pop-up-copiado" id="pop-up-data">
+                    ✓ Data copiada para a área de transferência!
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Feito por Rodolfo Gama
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
