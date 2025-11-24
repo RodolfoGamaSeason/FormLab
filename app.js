@@ -70,6 +70,13 @@ document.getElementById('gerar-nome').addEventListener('click', function () {
     });
 });
 
+document.getElementById('gerar-cns').addEventListener('click', function () {
+    const cns = gerarCNS();
+    document.getElementById('cns').value = cns;
+    
+    copiarCNS();
+});
+
 document.getElementById('gerar-nome-sobrenome').addEventListener('click', function () {
     nomeSobrenomeAleatorio().then(nomeCompleto => {
         document.getElementById('nome').value = nomeCompleto;
@@ -130,6 +137,51 @@ function gerarCPF(formatacao) {
     return cpfFormatado;
 }
 
+function gerarCNS() {
+    const tipo = Math.random() < 0.5 ? 'definitivo' : 'provisorio';
+
+    if (tipo === 'definitivo') {
+        while (true) {
+            let pis = (Math.floor(Math.random() * 2) + 1).toString(); // Inicia com 1 ou 2
+            for (let i = 0; i < 10; i++) {
+                pis += Math.floor(Math.random() * 10);
+            }
+
+            let soma = 0;
+            let peso = 15;
+            for (let i = 0; i < 11; i++) {
+                soma += parseInt(pis[i]) * peso--;
+            }
+
+            let resto = soma % 11;
+            let dv = 11 - resto;
+            if (dv === 11) dv = 0;
+
+            if (dv === 10) continue;
+
+            return pis + "001" + dv;
+        }
+    } else {
+        while (true) {
+            const prefixos = [7, 8, 9];
+            let cns = prefixos[Math.floor(Math.random() * prefixos.length)].toString();
+            
+            for (let i = 0; i < 14; i++) {
+                cns += Math.floor(Math.random() * 10);
+            }
+
+            let soma = 0;
+            for (let i = 0; i < 15; i++) {
+                soma += parseInt(cns[i]) * (15 - i);
+            }
+
+            if (soma % 11 === 0) {
+                return cns;
+            }
+        }
+    }
+}
+
 function copiarCPF() {
     var cpfInput = document.getElementById('cpf');
     cpfInput.select();
@@ -151,6 +203,18 @@ function copiarNome() {
     document.getElementById('pop-up-nome').style.display = 'block';
     setTimeout(function () {
         document.getElementById('pop-up-nome').style.display = 'none';
+    }, 3000);
+}
+
+function copiarCNS() {
+    var cnsInput = document.getElementById('cns');
+    cnsInput.select();
+    cnsInput.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(cnsInput.value);
+
+    document.getElementById('pop-up-cns').style.display = 'block';
+    setTimeout(function () {
+        document.getElementById('pop-up-cns').style.display = 'none';
     }, 3000);
 }
 
